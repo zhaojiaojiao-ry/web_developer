@@ -154,9 +154,9 @@ bean的初始化：3种方法
 
 一个bean内部依赖于其他的bean，如何建立和其他bean的关联？有以下2种方法。
 
-基于构造器的依赖注入：有参数的构造器，参数的类型和依赖的bean的类型相同。可以通过参数类型、index实现注入。
+>* 基于构造器的依赖注入：有参数的构造器，参数的类型和依赖的bean的类型相同。可以通过参数类型、index实现注入。
 
-基于setter的依赖注入：先调用无参数的构造器或无参数的static factory method，再调用依赖的bean的setter。所以这个时候需要提供内部依赖的bean的setter。
+>* 基于setter的依赖注入：先调用无参数的构造器或无参数的static factory method，再调用依赖的bean的setter。所以这个时候需要提供内部依赖的bean的setter。
 
 这2种方法怎么选择好？对必须的依赖bean使用构造器依赖注入，对可选的依赖bean使用setter依赖注入。
 
@@ -187,6 +187,72 @@ spring提供6种bean的作用域：
 如果一个singleton bean依赖一个prototype bean，只有实例化singleton的时候会实例化一个prototype并注入，之后实例化新的prototype不会再重新注入。-如果想重新注入，需要看method injection。
 
 如果一个长生命周期的bean中想注入一个短生命周期的bean，需要使用proxy。-需要看proxying mechanisms。
+
+### lifecycle callbacks
+
+允许bean在初始化和销毁时做自定义操作，@PostConstruct和@PreDestroy。
+
+ApplicationContextAware：当ApplicationContext创建了对象实例，实例实现了ApplicationContextAware接口，那么这个实例就获得了一个ApplicationContext的引用，可以用来修改ApplicationContext。
+
+### bean定义继承
+
+bean之间可以定义继承关系，为了让子bean复用父bean定义的属性，减少重复设置。
+
+### 注解
+
+#### 注入相关注解
+
+@Autowired：可以用在成员变量、构造器、setter方法，实现【按类型注入】。
+>* 成员变量：从container中查找成员变量对应类型的bean的实例，有了这个可以省略当前bean的getter和setter。
+>* 构造器：从container中查找构造器参数对应类型的bean的实例，并用这个实例来初始化当前bean的成员变量。
+>* setter方法：从container中查找setter参数对应类型的bean的实例，并用这个实例来初始化当前bean的成员变量。
+
+@Resource：可以用在成员变量、构造器、setter方法，实现【按名称注入】。
+
+@Primary：当有多个同一个类型的bean实例时，可以通过primary标明哪个bean实例被优先用于注入。
+
+@Qualifier：一种命名标识，可以定义bean的qualifier命名标识value，相应的可以指定注入某种类型的且qualifier命名标识value等于指定值的bean实例。也可以用于自定义注解。
+
+#### bean定义相关注解
+
+@Component：通用component注解。可以详细分为几类：
+>* @Repository：标识持久层Data Access Object或DAO。
+>* @Service：标识服务层。
+>* @Controller：标识控制层。
+
+meta注解与composed注解：meta注解是基础注解，composed注解由多个meta或composed注解组合构成。如@RestController就包含@Controller和@ResponseBody。
+
+如何自动扫描到bean定义相关注解：
+@Configuration// 注解beanconfig类
+@ComponentScan(basePackages="xxx")//指定自动扫描的base包路径，该路径下的@Component类型注解的bean都能被扫描到。还可以增加正向反向过滤条件，includeFilters和excludeFilters。
+
+在@Configuration或@Component注解的类中，用@Bean注解都能标识bean定义。更建议在@Configuration中标识bean的方法。
+
+@Scope：表明bean的作用域。默认singleton。
+
+@Qualifier：一种命名标识，可以定义bean的qualifier命名标识value，或者定义自定义注解。
+
+@Import：@Configure类上可使用@Import注解import其他@Configure类。这样ApplicationContext加载时可以不用指定那么多类。
+
+@Profile：注明bean在什么环境配置下生效。可以和@Configuration或@Bean一起使用。
+设置profile的方式有：通过ApplicationContext设置；通过环境变量spring.profiles.active设置；通过@ActiveProfiles设置测试时的profile。可以同时激活多个profile。
+
+@PropertySource：可以在properties文件中定义属性key=value，在类上用@PropertySource标识读取的properties文件，在类中用env.getProperty读取key对应的value。
+
+
+#### 注解方式的ApplicationContext
+
+AnnotationConfigApplicationContext类
+
+
+
+
+
+
+
+
+
+servlet和container的关系？？
 
 
 
