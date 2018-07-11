@@ -99,3 +99,19 @@ servlet如果有成员变量或类变量，那么是多线程共享的。
 
 session数据是需要保证互斥访问的。
 
+## MVC
+
+model：模型，描述业务实体和逻辑。java bean
+
+view：视图，决定如何展现业务实体数据到前台。jsp
+
+controller：控制器，请求处理、对模型的使用。servlet
+
+client->controller->model
+
+controller->view
+
+view->model
+
+view->client
+
