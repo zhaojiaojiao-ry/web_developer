@@ -50,3 +50,52 @@ jdbc的实现用的就是manager-provider-service模式。
 DataSource可以看做Connection工厂。
 
 连接池。
+
+## 会话
+
+### 如何跟踪一个会话
+
+#### session
+
+在服务器端保存session，包含sessionid、用户的属性。两种实现方式，cookie会话和URL重写。
+
+cookie会话：服务器发送临时cookie给客户端，cookie中包含sessionid。客户端不保存cookie，cookie在浏览器关闭后就失效。
+
+URL重写：服务器将sessionid拼接在URL，实现跳转。
+
+session需要在服务端持久化。用到Serialize。
+
+#### cookie
+
+在服务器端生成cookie，发送给客户端，客户端将cookie保存在本地。
+
+cookie可以在多次打开浏览器的过程中复用。
+
+## 异常处理机制
+
+### 声明式
+
+可以声明指定的http错误码或者java异常类名，用什么静态页面或者servlet来处理。
+
+缺点：需要列举所有需要处理的错误码或者异常。
+
+### 程序式
+
+程序中try catch捕获异常，通过HttpResponse sendError，标识错误码和描述。
+
+可以将异常统一转发给异常处理的servlet来处理，避免在多个servlet中重复实现异常处理。
+
+## 线程安全
+
+默认一个servlet只会生成一个实例。
+
+当一个请求达到servlet容器时，会使用一个线程处理请求，多个线程可能访问同一个servlet实例。
+
+### 变量的线程安全
+
+servlet如果有成员变量或类变量，那么是多线程共享的。
+
+解决方法：成员变量改为局部变量；操作变量时保证互斥（影响性能）。
+
+session数据是需要保证互斥访问的。
+
