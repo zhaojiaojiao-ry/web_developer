@@ -1,4 +1,4 @@
-# web_developer
+# Servlet
 
 ## servlet
 web服务器：接收http请求，查找并返回静态资源。如apache。
@@ -114,4 +114,86 @@ controller->view
 view->model
 
 view->client
+
+# Spring
+
+## IoC容器
+
+### 概念
+
+IoC: Inversion of Control控制反转，由bean factory负责bean的实例化和组装，注入到依赖于该bean的其他bean中，而不是由bean自己实例化依赖的bean。
+
+DI: Dependency Injection依赖注入。
+
+BeanFactory: 访问spring bean容器的根接口。
+
+ApplicationContext：BeanFactory的子接口，包含BeanFactory+额外功能。
+
+Bean：由spring IoC容器管理（实例化、组装等）的对象。
+
+### 容器
+
+org.springframework.context.ApplicationContext：接口，负责实例化、配置、组装bean。通过读取配置数据（xml、java注解、java代码）决定如何管理bean。
+
+常见实现如ClassPathXmlApplicationContext，从classpath下读取指定的xml配置文件，初始化容器。支持读取多个xml，或读取一个xml通过在xml内import来加载多个xml文件（相对路径）内的配置。
+
+使用容器管理的bean，可以通过context.getBean()或注入注解实现。
+
+### Bean
+
+BeanDefinition：bean的定义，包括类名、名称、作用域、构造器、属性、注入模式、懒加载模式、初始化模式、销毁模式。
+
+bean的命名：全局唯一id，可以显式指定，也可以不指定由容器自动生成。
+
+bean的初始化：3种方法
+>* 构造器：无参数构造器直接使用，有参数构造器属于【基于构造器的依赖注入，详见依赖部分】。
+>* static factory method
+>* instance factory method
+
+### 依赖
+
+一个bean内部依赖于其他的bean，如何建立和其他bean的关联？有以下2种方法。
+
+基于构造器的依赖注入：有参数的构造器，参数的类型和依赖的bean的类型相同。可以通过参数类型、index实现注入。
+
+基于setter的依赖注入：先调用无参数的构造器或无参数的static factory method，再调用依赖的bean的setter。所以这个时候需要提供内部依赖的bean的setter。
+
+这2种方法怎么选择好？对必须的依赖bean使用构造器依赖注入，对可选的依赖bean使用setter依赖注入。
+
+bean的实例化时间？单例或设置需要提前实例化的（默认）bean在container创建时就实例化了，其他bean在被请求使用时才实例化。这样有可能启动正常，但运行中因为实例化导致异常。这也是为什么spring默认bean是需要提前实例化的单例。
+
+除了内部包含的依赖之外，一些隐含的依赖关系，可以通过depends on来限制初始化的先后顺序。
+
+lazy-initialization：在bean被真正使用前才创建。
+
+注入：有4种模式
+>* 通过ref指定bean id
+>* 通过property name查找对应name的bean
+>* 通过property type查找对应type的bean
+>* 通过构造器
+
+### Bean的作用域
+
+spring提供6种bean的作用域：
+>* singleton：默认，单例，容器范围。unstateful object适合此作用域。
+>* prototype：多个实例。每次这个bean被请求，或调用getBean都会得到一个新的实例。stateful object适合此作用域。
+>* request：作用域和一个http request的生命周期同步，@RequestScope
+>* session：作用域和一个http session的生命周期同步，@SessionScope
+>* application：作用域和一个servlet context的生命周期同步，@ApplicationScope
+>* websocket：作用域和一个web socket的生命周期同步
+
+后面4种的使用条件： Only valid in the context of a web-aware Spring ApplicationContext，如XmlWebApplicationContext。
+
+如果一个singleton bean依赖一个prototype bean，只有实例化singleton的时候会实例化一个prototype并注入，之后实例化新的prototype不会再重新注入。-如果想重新注入，需要看method injection。
+
+如果一个长生命周期的bean中想注入一个短生命周期的bean，需要使用proxy。-需要看proxying mechanisms。
+
+
+
+
+
+
+
+
+
 
