@@ -9,7 +9,8 @@ servlet容器：如果web服务器想使用应用程序返回动态的结果，�
 
 客户端<-http相应<-web服务器（静态页面、servlet容器(servlet)）
 
-1个servlet容器中可以存在多个servlet实例
+1个servlet容器中可以存在多个servlet实例。
+
 如何实现一个servlet？实现Servlet类，主要方法包括init、service、destroy。
 
 如何实现一个web应用程序？实现一到多个servlet，准备静态文件如html，完成web服务配置xml。
@@ -115,7 +116,7 @@ view->model
 
 view->client
 
-# Spring
+# Spring Core
 
 ## IoC容器
 
@@ -244,15 +245,74 @@ meta注解与composed注解：meta注解是基础注解，composed注解由多�
 
 AnnotationConfigApplicationContext类
 
+## Resource
 
+Resource指什么？classpath下、指定url下、指定文件目录下、servlet context目录下的资源。
 
+ApplcationContext实现了ResourceLoader接口，所以通过context.getResource方法可以获取Resource。
 
+根据ApplicaitonContext的实例类型，可以得到不同类型的Resource，如：
+>* ClassPathXmlApplicationContext是从classpath下获取。
+>* FileSystemXmlApplicationContext是从当前工作路径下获取。
+>* WebApplicationContext是从servlet context路径下获取。
+当然，通过getResource参数中资源的前缀可以强制获取不同类型的Resource，如classpath:，file:。
 
+## Validation
 
+创建实现Validator接口的类，对bean进行validate。Validator接口提供了supports和validate方法。ValidationUtils提供了不少校验方法。
 
+# Spring MVC
 
+## servlet和spring中几个容易混淆的概念
 
-servlet和container的关系？？
+>* servlet context：这个概念和servlet有关，和spring无关。
+一个web应用有一个servlet context。一个web应用包含一到多个servlet，所有servlet共享这个servlet context。
+servlet context中定义了一组方法，servlet容器中的servlet可以使用这些方法和servlet容器进行通讯。
+servlet context对象是web服务器中的一个已知路径的根。servlet容器在web应用加载时创建servlet context对象。
+
+>* servlet config：在web.xml中可以对每个servlet做属性配置，web容器在实例化servlet时，会将这些属性封装到servlet config对象中使用。
+
+>* spring mvc中的application context：在spring中，有父子appliacation context。
+父application context：又称root application context，在web.xml中定义了context loader listener和context config location，会从对应的config文件里加载root application context。
+把初始化好的root application context以WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE为key，放在servlet context中，供后续使用。
+子application context：在web.xml中定义了servlet，在servlet内有context config location，会从对应的config文件里加载servlet的application context。加载servlet application context的时候会复用root application context中的内容。
+一般将servlet间共享的（非controller相关的）bean放在父application context中，把servlet独有的（controller相关的）bean放在子application context中，这样子可以使用父中实例的bean，反过来则不行。
+但是经常因为放的位置不对导致问题。springboot对这点做了简化。
+
+>* spring boot中的application context：在springboot中只有一个application context，不用纠结了。
+
+>* spring中的ApplicationContext和WebApplicationContext：都是spring container接口，WebApplicationContext继承了ApplicationContext接口，增加了web应用相关的ServletContext相关的方法。
+
+>* spring mvc中哪个是serlvet，servlet和controller什么关系？spring mvc中有1个servlet-DispatcherServlet，它负责将请求发给对应的controller处理。
+DispatchServlet是spring mvc的核心枢纽，即前端控制器。流程：用户发送请求 → DispatchServlet → HandlerMapping 处理器映射器（匹配与该 URL 对应的 Handler）→ DispatchServlet → HandlerAdapter处理器适配器（调用对应的 Handler 处理得到一个逻辑视图 ModelAndView）→ DispatchServlet → ViewResolver 视图解析器（渲染视图，装载数据）→ 视图返回给用户。
+
+>* 初始化顺序：servlet context->root application context->child(servlet) application context->servlet
+
+## Controller相关注解
+
+@RestController=@Controller+@ResponseBody
+
+@RequestMapping
+
+@RequestParam：将servlet request url参数属性和方法参数绑定。默认是必须参数。可以用required标识是否必须。
+
+@RequestHeader：将servlet request header属性和方法参数绑定。
+
+@CookieValue：将servlet request cookie和方法参数绑定。
+
+@RequestBody：将servlet request body反序列成对象，通过HttpMessageConverter。
+
+@ResponseBody：将object序列化，放在response body中返回，通过HttpMessageConverter。可以和json序列化组合使用。
+在实体类内用@JsonView指定getter的可见性，定义view。在Controller中用@JsonView指定使用哪种view返回。
+
+@ExceptionHandler：在Controller类中用@ExceptionHandler标识方法，该方法可以处理controller中其他方法导致的exception。
+
+@ControllerAdvice：如果希望定义全局的，而非controller级别的ExceptionHandler，可以定义一个类，用@ControllerAdvice标识，然后再在类内定义@ExceptionHandler标识的方法。
+
+## HttpMessageConverter
+
+spring有多种HttpMessageConverter实现，具体使用哪种，通过http request的content-type和response的accept属性来选择。
+
 
 
 
