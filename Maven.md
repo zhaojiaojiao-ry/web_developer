@@ -1,6 +1,6 @@
 # 项目结构
 
-## modules
+## 多modules
 
 web应用工程中常见的module划分方式：app-util、app-dao、app-biz/app-service、app-web。后者依赖于前者。
 注意：要保持module间依赖关系的单向性。

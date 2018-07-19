@@ -194,3 +194,16 @@ DispatchServlet是spring mvc的核心枢纽，即前端控制器。流程：用�
 ## HttpMessageConverter
 
 spring有多种HttpMessageConverter实现，具体使用哪种，通过http request的content-type和response的accept属性来选择。
+
+## Servlet、Spring、SpringMVC的关系
+
+servlet的概念详见【Servlet】章节，简单理解为一个提供web服务的实现实例。如果要自己实现serlvet，可以直接实现Servlet，也可以实现HttpServlet。
+
+spring是一个容器管理框架，负责管理应用程序中的对象，核心就是IoC和DI。
+
+springmvc是一个基于spring框架的web框架。springmvc应用中的对象管理依赖于bean。在spring的基础上增加了web服务相关的组件。
+springmvc中一般用一个servlet就行，那就是DispatcherServlet，这个servlet实现了url到controller的映射，免去了自己在web.xml中进行多个url和servlet之间的映射。
+
+### springmvc中如何使用的spring？
+
+### springmvc中的DispatcherServlet如何工作？
