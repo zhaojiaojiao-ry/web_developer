@@ -12,4 +12,6 @@
 
 [Maven](Maven.md)
 
-JUnit
+[JUnit](JUnit.md)
+
+[Logger](Logger.md)
