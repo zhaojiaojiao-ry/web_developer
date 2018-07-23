@@ -1,5 +1,8 @@
 # HTML
 
+## doctype
+指明使用的html版本。
+
 ## 基础元素与属性
 
 html：每个网页必有。
@@ -34,6 +37,9 @@ body：包含网页展现的内容。
 > ol/ul/li：有序列表/无序列表/列表项。
 
 > img：图片。src="图片地址"，alt="图片无法展现时显示的描述信息"。
+
+> table：表格，table表格、tr表格行、th表头项/td表数据项。caption属性是表名，可通过rowspan或colspan属性跨行或跨列。
+list-style-type列表标识样式；list-style-image列表标识自定义图片。
 
 ## 块元素和内联元素
 
