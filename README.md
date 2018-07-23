@@ -18,6 +18,8 @@
 
 [HTML/CSS](HTML_and_CSS.md)
 
+[Javascript](Javascript.md)
+
 [React](React.md)
 
 

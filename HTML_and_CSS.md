@@ -3,6 +3,9 @@
 ## doctype
 指明使用的html版本。
 
+对于html5：直接用<!DOCTYPE html>，不需要指定版本，所谓"活的html版本"，也就是最新的html。
+因为html会做到向后兼容。
+
 ## 基础元素与属性
 
 html：每个网页必有。
@@ -50,6 +53,69 @@ list-style-type列表标识样式；list-style-image列表标识自定义图片�
 ## 字符实体
 
 html中特殊字符要使用字符实体。如<, >, &。
+
+## 表单
+
+关键词：name、value。
+
+表单：form元素
+
+> action：提交表单请求的url
+
+> method：提交表单的http请求类型，如post
+
+文本输入：input元素
+
+> type：类型，如text表示文本
+
+> name：大多数表单元素需要name属性，浏览器会将这个name和对应的value传给后端，name相当于标识
+
+提交输入：input元素
+
+> type：类型，如submit表示提交按钮
+
+单选输入：input元素
+
+> type：类型，如radio表示单选
+
+> name：一组单选项有相同的name
+
+> value：每个单选项有不同的value
+
+> checked：让单选项选中，布尔属性，只写属性名即可，不需要属性值
+
+多选输入：input元素
+
+> type：类型，如checkbox表示多选
+
+> name：一组多选项有相同的name
+
+> value：每个复选项有不同的value
+
+> checked：让多选项选中，布尔属性，只写属性名即可，不需要属性值
+
+文本区：textarea元素
+
+> name
+
+> rows
+
+> cols
+
+下拉菜单：select+option元素
+
+> select：菜单，name
+
+> option：菜单选项， value
+
+> multiple：如果有这个属性，可多选；否则，单选
+
+标签文本：label，对input的标签文本
+
+> for: 对应input元素的id
+
+required属性，表单元素可以用，标识这个域在提交时必须有值，否则无法提交。
+
 
 # CSS
 
