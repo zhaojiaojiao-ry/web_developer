@@ -245,13 +245,20 @@ var date = new Date();
 
 var arr = new Array();// 等价于var arr = [];
 
+## 对象原型
 
+定义对象Student，通过Student.prototype.xxx，可以定义Student对象原型中的属性和方法。
 
+原型中的属性和方法是所有Dog对象实例共享的，是它们的共有特征或行为。
 
+## AJAX
+AJAX是一种异步加载页面的技术。
 
+是AsynchronousJavascript+XML。
 
+用js调用异步通讯组件，并使用格式化数据来更新页面内容。可以对页面做局部更新。
+> 异步：向服务器发送请求时，不必同步等待结果，可以继续做其他事情。
+> 格式化数据：xml，现在也使用json。
 
-
-
-Javascript和jQuery
-
+## jQuery
+jQuery是一个js库，提供了一些更简单的js操作方法，如对DOM的操作、Ajax，简化了js开发。
