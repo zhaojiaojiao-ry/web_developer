@@ -280,3 +280,53 @@ key属性无法在组件内获得，如果需要在组件内获得还是需要�
 ## 组成
 
 可以通过props.children得到子元素。一个组件的子节点内容会被保存到props.children中。
+
+## PropTypes与defaultProp
+
+使用propTypes属性来检查其他属性的类型。
+
+通过defaultProp属性为其他属性指定默认值。
+
+
+# React Router
+
+React Router库：向应用中快速添加视图和数据流，同时，保持页面与URL同步。
+
+## 使用方法
+
+```
+<Router>
+    <Route>
+        <Route></Route>
+        ...
+    </Route>
+    ...
+</Router>
+
+```
+
+1. <Route>是什么？
+通过<Route>，指定path，和处理path的component。
+path中可以用如/xxx/:id的方式将url=/xxx/123中的对应内容123注入到this.props.params.id属性中。
+当然，也可以直接通过this.props.location.query.xxx从url中获取xxx参数的值。
+
+2. <Route>的嵌套？
+通过<Route>嵌套<Route>，维护了component之间的嵌套和父子关系，这样父component渲染时可以通过this.props.children来渲染子component。
+
+3. IndexRoute是什么？
+通过<IndexRoute>中的component可以为父<Route>设置默认页面。
+
+4. 相对路径和绝对路径？
+<Route>中的path可以使用相对路径或绝对路径（以/开头），但component的嵌套父子关系一直是有效的。
+
+5. exact的作用是什么？
+<Route>中的exact属性用来表示精确匹配。
+
+6. <Switch>的作用是什么？
+如果多个<Route>并列但外层没有<Switch>，则所有匹配上的<Route>会依次渲染。
+如果多个<Route>并列但外层有<Switch>，则只有第一个匹配上的<Route>会渲染。
+
+7. history是什么？？
+
+
+
