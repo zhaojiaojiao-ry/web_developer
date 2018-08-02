@@ -28,9 +28,9 @@ while、if、else if、else、for：同java
 
 Math.random()产生0-1的随机小数，Math.floor()将小数向下圆整为最接近的整数。
 
-函数：java的函数调用是按值传递实参，传递的是实参的副本。函数可以return，如果不return则返回的是undefined。
+函数：js的函数调用是按值传递实参，传递的是实参的副本。函数可以return，如果不return则返回的是undefined。
 
-在函数内使用局部变量时，要记得先声明var xxx，否则xxx会被当做全局变量来声明。
+在函数内使用局部变量时，要记得先声明var xxx，否则xxx会被当做全局变量而不是函数作用域内变量来声明。
 
 数组：声明var scores = [1, 2, 3]; var empty = []; var arr = new Array(3);。
 获得长度var length = scores.length; 。
@@ -135,7 +135,7 @@ js中的假值：undefined、null、0、空字符串、NaN、false。
 
 可以为事件指定一个回调函数。
 
-事件处理函数被调用时，将向它传递一个事件对象。事件对象包括：事件触发的元素，何时发生等信息。
+事件处理函数被调用时，将默认向它传递一个事件对象。事件对象包括：事件触发的元素，何时发生等信息。
 
 ```
 function show(eventObj) {// eventObj是事件对象
@@ -197,7 +197,7 @@ function makeCounter() {
 1. 通过函数返回函数。如上举例。
 2. 函数使用了自由变量，每当在创建该函数的上下文外面执行这个函数时，都会创建一个闭包。
 3. 将函数传给函数时，如果参数函数有自由变量，也会创建一个闭包。
-4. 事件处理方法使用闭包。
+4. 事件处理方法使用闭包。如下举例。
 如：
 ```
 window.onload = function() {
