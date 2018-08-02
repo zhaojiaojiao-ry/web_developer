@@ -24,6 +24,8 @@
 
 [杂](front.md)
 
+[es6](ES6.md)
+
 ## 其他
 
 [Mybatis](Mybatis.md)
