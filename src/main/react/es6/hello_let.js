@@ -11,7 +11,7 @@ function AllWords() {
 }
 
 function testLet(func) {
-    for(let i=0;i<10;i++) {// 在每层循环中，有独立的i
+    for(let i=0;i<10;i++) {// 用let定义的变量i，在每层循环中，有独立的i
         func[i] = function() {
             console.log(i);
         }
@@ -19,7 +19,7 @@ function testLet(func) {
 }
 
 function testVar(func) {
-    for (var j=0;j<10;j++) {// 整个for循环，共用一个i；for语句和for下面的循环是两个作用域，for语句是for循环的父作用域
+    for (var j=0;j<10;j++) {// 用var定义的变量j，整个for循环，共用一个j；for语句和for下面的循环是两个作用域，for语句是for循环的父作用域
         func[j] = function() {
             console.log(j);
         }
